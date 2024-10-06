@@ -2,13 +2,13 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-
+import LogoutButton from './logout';
 
 const Header = () => {
     const [isMenuOpen,setIsMenuOpen] = useState(false);
   return (
     <>
-    <nav className='flex bg-transparent justify-between mx-14 px-6 py-1 border-b border-stone-200 border-opacity-7 font-nunito text-white text-lg font-semibold antialiased tracking-wide items-center '>
+    <nav className='flex bg-transparent justify-between mx-14 px-6 py-1 border-b border-stone-200 border-opacity-7 font-nunito text-black text-lg font-semibold antialiased tracking-wide items-center '>
        <div className='py-2 flex items-center gap-1'>
             <img src='Images/Artboard 1.svg' alt="logo"  className='w-9 h-auto'/> <h1>Tomex</h1>
         </div>  
@@ -23,7 +23,7 @@ const Header = () => {
       
     </ul>
     
-    <div><Link to="Register"><button className={`${isMenuOpen ? 'hidden' : 'block'} sm:flex px-4 py-2  rounded `}>Register</button></Link></div>
+    <div><LogoutButton/><Link to="Register"><button className={`${isMenuOpen ? 'hidden' : 'block'} sm:flex px-4 py-2  rounded `}>Register</button></Link></div>
     <button className="transition ease-out duration-500 active:-rotate-90 sm:hidden" onClick={()=>setIsMenuOpen(!isMenuOpen)}>
     {isMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}
     </button>

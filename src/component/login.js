@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({});
   const [message, setMessage] = useState('');
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Add your login logic here, e.g., using axios to post credentials to the server.
-    setMessage('Login successful!');
+    e.preventDefault(); // Prevent page refresh
+    try {
+      const response = await axios.post('http://localhost:8000/app/login/', credentials);
+      console.log('Response', response.data);
+      setMessage('Login successful');
+      // navigate('/');
+    } catch (error) {
+      console.log('Error Login', error);
+      setMessage('Login fail');
+    }
+    
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import React from 'react'
 import axios from 'axios';
+import { getCSRFToken } from "../utils/csrf";
 
 const PicInputForm = () => {
 const [image, setImage] = useState(null);
@@ -28,9 +29,20 @@ const onImageChange = (e) => {
     //is stored. Visit line 5 to see variable
     submitData.append('image',image);
 
+    //Retrive the csrf token 
+
+    const csrfToken = getCSRFToken();
+
     // try catch to send  data and print response
     try{
-       const Response=await axios.post('http://localhost:8000/app/upload/',submitData);
+       const Response=await axios.post('http://localhost:8000/app/upload/',submitData,{
+
+       headers: {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRFToken': csrfToken,  // Include CSRF token in the headers
+    },
+    withCredentials: true,  // Ensure cookies are sent with the request
+    });
       console.log('response',Response.data);
     }
     catch(error){
@@ -45,7 +57,7 @@ return (
     {/* {image} check is the image is null or not is yes nothisng is
      shhown && is not the img tag display the image that is {image} 
      form set image */}
-    {image && <img alt="preview image" src={previewUrl} className=" w-60 h-auto mt-20-" />}
+    {image && <img alt="preview-image" src={previewUrl} className=" w-60 h-auto mt-20-" />}
     
     <span>printing output span</span>
     <form method="post" onSubmit={onsubmitchange}>
