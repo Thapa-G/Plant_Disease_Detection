@@ -1,12 +1,24 @@
-import { useState } from "react"
-import React from 'react'
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { getCSRFToken } from "../utils/csrf";
+import { getCsrfToken } from './cssrf';
 
 const PicInputForm = () => {
 const [image, setImage] = useState(null);
 const [previewUrl, setPreviewUrl] = useState(null);
+const [csrfToken, setCsrfToken] = useState('');
+  
+  
+     useEffect(() => {
+    // Fetch CSRF token when the component mounts
+     const fetchCsrfToken = async () => {
+        const token = await getCsrfToken();
+        console.log(token)
+        setCsrfToken(token);
+        console.log(csrfToken);
 
+      };
+      fetchCsrfToken();
+      }, []);
 const onImageChange = (e) => {
   const file = e.target.files[0];
   console.log(file);
@@ -19,6 +31,8 @@ const onImageChange = (e) => {
   }
   e.target.value = "";
 };
+
+
   // sending the images in the backend for processing 
   const onsubmitchange=async (event)=>{
     event.preventDefault();
@@ -29,9 +43,7 @@ const onImageChange = (e) => {
     //is stored. Visit line 5 to see variable
     submitData.append('image',image);
 
-    //Retrive the csrf token 
-
-    const csrfToken = getCSRFToken();
+    
 
     // try catch to send  data and print response
     try{

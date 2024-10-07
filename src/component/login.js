@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 const Login = () => {
   const [credentials, setCredentials] = useState({});
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+ 
+
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page refresh
     try {
@@ -24,7 +27,7 @@ const Login = () => {
     <div className='min-h-screen bg-green-900 flex items-center justify-center'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md'>
         <h2 className='text-2xl font-bold mb-6 text-center'>Login</h2>
-        <form onSubmit={handleSubmit}>
+        
           <div className='mb-4'>
             <label htmlFor='username' className='block text-gray-700 font-semibold mb-2'>Username</label>
             <input 
@@ -50,11 +53,11 @@ const Login = () => {
           </div>
 
           <button 
-            type='submit' 
+            onClick={handleSubmit} 
             className='bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full hover:bg-green-700 transition duration-300'>
             Login
           </button>
-        </form>
+        
 
         {message && <p className='mt-4 text-center text-green-500'>{message}</p>}
 
